@@ -11,7 +11,7 @@
             sizes="32x32"
             href="./assets/images/favicon-32x32.png"
         />
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css" />
         <title>Age calculator app</title>
     </head>
     <body>
@@ -20,26 +20,37 @@
                 <form>
                     <div class="inputs__container">
                         <div class="time__input">
-                            <label for="day">Day</label>
-                            <input value="30" name="day" type="text" id="day" />
+                            <label class="day__label" for="day">Day</label>
+                            <input
+                                class="input__field"
+                                placeholder="DD"
+                                name="day"
+                                type="text"
+                                id="day"
+                            />
+                            <div class="error__message error__day"></div>
                         </div>
                         <div class="time__input">
-                            <label for="month">Month</label>
+                            <label class="month__label" for="month">Month</label>
                             <input
-                                value="07"
+                                class="input__field"
+                                placeholder="MM"
                                 name="month"
                                 type="text"
                                 id="month"
                             />
+                            <div class="error__message error__month"></div>
                         </div>
                         <div class="time__input">
-                            <label for="year">Year</label>
+                            <label class="year__label" for="year">Year</label>
                             <input
-                                value="2001"
+                                class="input__field"
+                                placeholder="YYYY"
                                 name="year"
                                 type="text"
                                 id="year"
                             />
+                            <div class="error__message error__year"></div>
                         </div>
                     </div>
                     <div class="submit__container">
@@ -55,18 +66,19 @@
             </div>
             <div class="results__container">
                 <div class="result">
-                    <span class="years__result">--</span>
+                    <span class="years__result num__result">--</span>
                     years
                 </div>
                 <div class="result">
-                    <span class="months__result">--</span>
+                    <span class="months__result num__result">--</span>
                     months
                 </div>
                 <div class="result">
-                    <span class="days__result">--</span>
+                    <span class="days__result num__result">--</span>
                     days
                 </div>
             </div>
         </div>
+        <script src="app.js"></script>
     </body>
 </html>

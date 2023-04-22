@@ -133,14 +133,212 @@ h6 {
 /* Container Styles */
 
 :root {
+    font-size: 16px;
     --color-primary: hsl(259, 100%, 65%);
     --color-primary-error: hsl(0, 100%, 67%);
     --color-neutral-white: hsl(0, 0%, 100%);
     --color-neutral-offwhite: hsl(0, 0%, 94%);
     --color-neutral-lightgray: hsl(0, 0%, 86%);
     --color-neutral-offblack: hsl(0, 0%, 8%);
+    --color-neutral-smokeygray: hsl(0, 1%, 44%);
 }
 
 body {
     font-family: 'Poppins', sans-serif;
+    background-color: var(--color-neutral-offwhite);
+    display: grid;
+    place-content: center;
+}
+
+.app__container {
+    background-color: var(--color-neutral-white);
+    width: 860px;
+    padding: 48px;
+    border-radius: 20px 20px 200px 20px;
+}
+
+.form__container {
+    width: 100%;
+}
+
+.time__input {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    max-width: 20%;
+}
+
+.inputs__container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 24px;
+}
+
+.inputs__container label {
+    color: var(--color-neutral-smokeygray);
+    font-weight: bold;
+    letter-spacing: 4px;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.inputs__container input {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-neutral-offblack);
+    caret-color: var(--color-primary);
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 2px solid var(--color-neutral-lightgray);
+}
+
+.inputs__container input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+.error__message {
+    color: var(--color-primary-error);
+    font-style: italic;
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+.submit__container {
+    display: flex;
+    align-items: center;
+}
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-neutral-lightgray);
+}
+
+button {
+    flex-shrink: 0;
+    display: grid;
+    place-content: center;
+    height: 100px;
+    width: 100px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: hsl(259, 100%, 55%);
+}
+
+button:active {
+    background-color: var(--color-neutral-offblack);
+}
+
+.results__container {
+    font-size: 6.5rem;
+    font-weight: 800;
+    font-style: italic;
+    line-height: 100%;
+    color: var(--color-neutral-offblack);
+}
+
+.num__result {
+    color: var(--color-primary);
+}
+
+@media (max-width: 900px) {
+    body {
+        display: block;
+    }
+
+    .app__container {
+        width: 90%;
+        margin: 0 auto;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 20px 20px 100px 20px;
+    }
+
+    .form__container {
+        width: auto;
+    }
+
+    .inputs__container {
+        width: 100%;
+    }
+
+    .time__input {
+        max-width: 30%;
+    }
+
+    .submit__container {
+        position: relative;
+        margin: 32px 0;
+        height: 85px;
+    }
+
+    button {
+        height: 85px;
+        width: 85px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 760px) {
+    .error__message {
+        font-size: 0.5rem;
+    }
+    
+    .results__container {
+        font-size: 4rem;
+    }
+
+    .inputs__container label {
+        font-size: 0.6rem;
+    }
+
+    .inputs__container input {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .app__container {
+        padding: 32px;
+    }
+    
+    .results__container {
+        font-size: 2.2rem;
+    }
+
+    .inputs__container {
+        gap: 8px;
+    }
+
+    .inputs__container label {
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+    }
+
+    .inputs__container input {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    button {
+        height: 60px;
+        padding: 15px;
+        width: 60px;
+    }
+
+    .submit__container {
+        position: relative;
+        margin: 16px 0;
+        height: 60px;
+    }
 }
