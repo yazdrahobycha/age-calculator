@@ -95,7 +95,7 @@ h6 {
     src: url('assets/fonts/Poppins-ExtraBoldItalic.woff2') format('woff2'),
         url('assets/fonts/Poppins-ExtraBoldItalic.woff') format('woff'),
         url('assets/fonts/Poppins-ExtraBoldItalic.ttf') format('truetype');
-    font-weight: bold;
+    font-weight: 800;
     font-style: italic;
     font-display: swap;
 }
@@ -125,12 +125,21 @@ h6 {
     src: url('assets/fonts/Poppins-ExtraBold.woff2') format('woff2'),
         url('assets/fonts/Poppins-ExtraBold.woff') format('woff'),
         url('assets/fonts/Poppins-ExtraBold.ttf') format('truetype');
-    font-weight: bold;
+    font-weight: 800;
     font-style: normal;
     font-display: swap;
 }
 
 /* Container Styles */
+
+:root {
+    --color-primary: hsl(259, 100%, 65%);
+    --color-primary-error: hsl(0, 100%, 67%);
+    --color-neutral-white: hsl(0, 0%, 100%);
+    --color-neutral-offwhite: hsl(0, 0%, 94%);
+    --color-neutral-lightgray: hsl(0, 0%, 86%);
+    --color-neutral-offblack: hsl(0, 0%, 8%);
+}
 
 body {
     font-family: 'Poppins', sans-serif;
