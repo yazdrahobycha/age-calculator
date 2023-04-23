@@ -2,23 +2,32 @@
 const submitBtn = document.querySelector('.submit__btn');
 const form = document.querySelector('form');
 
-// input elements
+// all elements array
 const inputsArray = document.querySelectorAll('.input__field');
-const dayInput = document.getElementById('day');
-const monthInput = document.getElementById('month');
-const yearInput = document.getElementById('year');
-
-// labels Elements
 const labelsArray = document.querySelectorAll('.time__input label');
-const dayLabel = document.querySelector('.day__label');
-const monthLabel = document.querySelector('.month__label');
-const yearLabel = document.querySelector('.year__label');
-
-// Error messages containers
 const errorMessagesArray = document.querySelectorAll('.error__message');
-const dayErrorMessage = document.querySelector('.error__day');
-const monthErrorMessage = document.querySelector('.error__month');
-const yearErrorMessage = document.querySelector('.error__year');
+
+// separate elements, that are related to inputs
+const inputElements = {
+    day: {
+        errorMessage: document.querySelector('.error__day'),
+        label: document.querySelector('.day__label'),
+        input: document.getElementById('day'),
+        result: document.querySelector('.days__result'),
+    },
+    month: {
+        errorMessage: document.querySelector('.error__month'),
+        label: document.querySelector('.month__label'),
+        input: document.getElementById('month'),
+        result: document.querySelector('.months__result'),
+    },
+    year: {
+        errorMessage: document.querySelector('.error__year'),
+        label: document.querySelector('.year__label'),
+        input: document.getElementById('year'),
+        result: document.querySelector('.years__result'),
+    },
+};
 
 // current time constants
 const today = new Date();
@@ -48,47 +57,112 @@ function validateAllDates(day, month, year) {
 
 function isDateInFuture(dateString) {
     const inputDate = new Date(dateString);
+    console.log();
     return inputDate > today;
 }
 
+function animateValue(obj, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+function throwAnError(time, type) {
+    const errorColor = 'var(--color-primary-error)';
+    let errorMessage;
+    if (type === 'empty') {
+        errorMessage = 'This field is required';
+    } else if (type === 'invalid') {
+        errorMessage = `Must be a valid ${time}`;
+    } else if ((type = 'past')) {
+        errorMessage = 'Must be in the past';
+    }
+    inputElements[time].errorMessage.textContent = errorMessage;
+    inputElements[time].label.style.color = errorColor;
+    inputElements[time].input.style.borderColor = errorColor;
+}
+
+function calculateAndDisplayAge(day, month, year) {
+    const birthDate = new Date(year, month - 1, day);
+
+    let years = today.getFullYear() - birthDate.getFullYear();
+    console.log(today.getFullYear());
+    console.log(birthDate.getFullYear());
+    let months = today.getMonth() - birthDate.getMonth();
+    let days = today.getDate() - birthDate.getDate();
+
+    if (months < 0 || (months === 0 && days < 0)) {
+        years--;
+        months += 12;
+    }
+
+    if (days < 0) {
+        const prevMonthLastDay = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            0
+        ).getDate();
+        days += prevMonthLastDay;
+        months--;
+    }
+
+    // inputElements.day.result.textContent = days;
+    animateValue(inputElements.day.result, 0, day, 450);
+    animateValue(inputElements.month.result, 0, months, 450);
+    animateValue(inputElements.year.result, 0, years, 450);
+    //inputElements.month.result.textContent = months;
+    //inputElements.year.result.textContent = years;
+}
+
 function validateInputs(inputedDay, inputedMonth, inputedYear) {
+    let hasEmptyInput = false;
+    let hasInvalidInput = false;
     // Check if all fields are filled
     if (!inputedDay) {
-        dayErrorMessage.textContent = 'This field is required';
-        dayLabel.style.color = 'var(--color-primary-error)';
-        dayInput.style.borderColor = 'var(--color-primary-error)';
-        return false;
+        throwAnError('day', 'empty');
+        hasEmptyInput = true;
     }
     if (!inputedMonth) {
-        monthErrorMessage.textContent = 'This field is required';
-        monthLabel.style.color = 'var(--color-primary-error)';
-        monthInput.style.borderColor = 'var(--color-primary-error)';
-        return false;
+        throwAnError('month', 'empty');
+        hasEmptyInput = true;
     }
     if (!inputedYear) {
-        yearErrorMessage.textContent = 'This field is required';
-        yearLabel.style.color = 'var(--color-primary-error)';
-        yearInput.style.borderColor = 'var(--color-primary-error)';
+        throwAnError('year', 'empty');
+        hasEmptyInput = true;
+    }
+
+    // return false if even one input has an empty input
+    if (hasEmptyInput) {
         return false;
     }
 
     // Check if all field are filled corectly
     if (inputedDay < 1 || inputedDay > 31) {
-        dayErrorMessage.textContent = 'Must be a valid day';
-        dayLabel.style.color = 'var(--color-primary-error)';
-        dayInput.style.borderColor = 'var(--color-primary-error)';
-        return false;
+        throwAnError('day', 'invalid');
+        hasInvalidInput = true;
     }
     if (inputedMonth < 1 || inputedMonth > 12) {
-        monthErrorMessage.textContent = 'Must be a valid month';
-        monthLabel.style.color = 'var(--color-primary-error)';
-        monthInput.style.borderColor = 'var(--color-primary-error)';
+        throwAnError('month', 'invalid');
+        hasInvalidInput = true;
+    }
+
+    // if there's invalid day or month, return false
+    if (hasInvalidInput) {
         return false;
     }
-    if (isDateInFuture(`${inputedYear}-${inputedMonth}-${inputedDay}`)) {
-        yearErrorMessage.textContent = 'Must be in the past';
-        yearLabel.style.color = 'var(--color-primary-error)';
-        yearInput.style.borderColor = 'var(--color-primary-error)';
+
+    if (
+        inputedYear > 9999 ||
+        isDateInFuture(`${inputedYear}-${inputedMonth}-${inputedDay}`)
+    ) {
+        throwAnError('year', 'past');
         return false;
     }
 
@@ -96,23 +170,23 @@ function validateInputs(inputedDay, inputedMonth, inputedYear) {
         inputsArray.forEach(
             (input) => (input.style.borderColor = 'var(--color-primary-error)')
         );
-        dayErrorMessage.textContent = 'Must be a valid date';
+        inputElements.day.errorMessage.textContent = 'Must be a valid date';
         labelsArray.forEach((label) => {
             label.style.color = 'var(--color-primary-error)';
         });
-        return false
+        return false;
     }
-    return true
+    return true;
 }
 
 function startApp(e) {
     e.preventDefault();
     resetFields();
-    const day = +dayInput.value;
-    const month = +monthInput.value;
-    const year = +yearInput.value;
+    const day = +inputElements.day.input.value;
+    const month = +inputElements.month.input.value;
+    const year = +inputElements.year.input.value;
     if (validateInputs(day, month, year)) {
-        console.log('the date is correnct!');
+        calculateAndDisplayAge(day, month, year);
     }
 }
 

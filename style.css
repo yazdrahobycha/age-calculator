@@ -191,6 +191,7 @@ body {
     padding: 8px 16px;
     border-radius: 10px;
     border: 2px solid var(--color-neutral-lightgray);
+    transition:all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .inputs__container input:focus {
