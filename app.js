@@ -37,7 +37,7 @@ const currentDay = today.getDate();
 
 function resetFields() {
     inputsArray.forEach(
-        (input) => (input.style.borderColor = 'var(--color-neutral-lightgray)')
+        (input) => (input.classList.remove('error'))
     );
     errorMessagesArray.forEach((errorContainer) => {
         errorContainer.textContent = '';
@@ -86,7 +86,7 @@ function throwAnError(time, type) {
     }
     inputElements[time].errorMessage.textContent = errorMessage;
     inputElements[time].label.style.color = errorColor;
-    inputElements[time].input.style.borderColor = errorColor;
+    inputElements[time].input.classList.add('error');
 }
 
 function calculateAndDisplayAge(day, month, year) {
@@ -113,12 +113,9 @@ function calculateAndDisplayAge(day, month, year) {
         months--;
     }
 
-    // inputElements.day.result.textContent = days;
     animateValue(inputElements.day.result, 0, day, 450);
     animateValue(inputElements.month.result, 0, months, 450);
     animateValue(inputElements.year.result, 0, years, 450);
-    //inputElements.month.result.textContent = months;
-    //inputElements.year.result.textContent = years;
 }
 
 function validateInputs(inputedDay, inputedMonth, inputedYear) {
